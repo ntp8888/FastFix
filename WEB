@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fast Fix — เรียกช่างมาซ่อมถึงบ้าน ราคายุติธรรม</title>
+    <meta name="description"
+        content="Fast Fix แพลตฟอร์มเรียกช่างซ่อมบ้านมืออาชีพ ราคาโปร่งใส สะดวกรวดเร็ว ช่างไฟฟ้า ช่างประปา ช่างแอร์ ช่างซ่อมรถ">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ============ RESET & VARIABLES ============ */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+
+        :root {
+            --primary: #007BFF;
+            --primary-dark: #0056b3;
+            --primary-light: #e8f4ff;
+            --accent: #FF7A00;
+            --accent-dark: #cc6200;
+            --accent-light: #fff4e8;
+            --bg: #f8fafd;
+            --white: #ffffff;
+            --dark: #1a1a2e;
+            --gray: #64748b;
+            --gray-light: #e2e8f0;
+            --radius: 14px;
+            --radius-sm: 8px;
+            --shadow: 0 4px 24px rgba(0, 0, 0, .08);
+            --shadow-lg: 0 12px 40px rgba(0, 0, 0, .12);
+            --font-th: 'IBM Plex Sans Thai', 'Inter', sans-serif;
+            --font-en: 'Inter', 'IBM Plex Sans Thai', sans-serif;
+            --transition: .3s cubic-bezier(.4, 0, .2, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px
+        }
+
+        body {
+            font-family: var(--font-th);
+            background: var(--bg);
+            color: var(--dark);
+            line-height: 1.6;
+            overflow-x: hidden
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit
+        }
+
+        ul {
+            list-style: none
+        }
+
+        img {
+            max-width: 100%;
+            display: block
+        }
+
+        /* ============ UTILITY ============ */
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 20px
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 48px
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 8px
+        }
+
+        .section-title .underline {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+            margin: 0 auto 12px
+        }
+
+        .section-title p {
+            color: var(--gray);
+            font-size: 1.05rem
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            font-family: var(--font-th)
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(0, 123, 255, .35)
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 28px rgba(0, 123, 255, .45)
+        }
+
+        .btn-accent {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(255, 122, 0, .35)
+        }
+
+        .btn-accent:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 28px rgba(255, 122, 0, .45)
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary)
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: #fff;
+            transform: translateY(-2px)
+        }
+
+        /* ============ ANIMATIONS ============ */
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+
+            50% {
+                transform: translateY(-12px)
+            }
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(1.05)
+            }
+        }
+
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity .7s ease, transform .7s ease
+        }
+
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0)
+        }
+
+        /* ============ HEADER ============ */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 12px 0;
+            transition: var(--transition);
+            background: rgba(255, 255, 255, .85);
+            backdrop-filter: blur(12px)
+        }
+
+        .header.scrolled {
+            box-shadow: 0 2px 20px rgba(0, 0, 0, .08)
+        }
+
+        .header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-en);
+            font-size: 1.6rem;
+            font-weight: 800
+        }
+
+        .logo .icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 18px
+        }
+
+        .logo span:first-of-type {
+            color: var(--primary)
+        }
+
+        .logo span:last-of-type {
+            color: var(--accent)
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            gap: 32px
+        }
+
+        .nav a {
+            font-weight: 500;
+            color: var(--dark);
+            transition: var(--transition);
+            position: relative
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition)
+        }
+
+        .nav a:hover {
+            color: var(--primary)
+        }
+
+        .nav a:hover::after {
+            width: 100%
+        }
+
+        .nav .btn {
+            padding: 10px 24px;
+            font-size: .9rem
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            padding: 4px
+        }
+
+        .hamburger span {
+            width: 26px;
+            height: 3px;
+            background: var(--dark);
+            border-radius: 2px;
+            transition: var(--transition)
+        }
+
+        /* ============ HERO ============ */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--bg) 50%, var(--accent-light) 100%);
+            position: relative;
+            overflow: hidden
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 123, 255, .1), transparent);
+            border-radius: 50%;
+            top: 10%;
+            right: -100px;
+            animation: float 6s ease-in-out infinite
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(255, 122, 0, .08), transparent);
+            border-radius: 50%;
+            bottom: 10%;
+            left: -80px;
+            animation: float 8s ease-in-out infinite 1s
+        }
+
+        .hero .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1
+        }
+
+        .hero-content {
+            animation: fadeUp .8s ease forwards
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--white);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: .85rem;
+            color: var(--primary);
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px
+        }
+
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s infinite
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.25;
+            color: var(--dark);
+            margin-bottom: 16px
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--gray);
+            margin-bottom: 32px;
+            max-width: 440px
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: fadeUp .8s ease .2s forwards;
+            opacity: 0
+        }
+
+        .hero-illustration {
+            width: 100%;
+            max-width: 480px;
+            animation: float 5s ease-in-out infinite
+        }
+
+        /* ============ SERVICES ============ */
+        .services {
+            padding: 100px 0;
+            background: var(--white)
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px
+        }
+
+        .service-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 36px 24px;
+            text-align: center;
+            border: 1px solid var(--gray-light);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transition: var(--transition);
+            transform-origin: left
+        }
+
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: transparent
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1)
+        }
+
+        .service-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 20px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            transition: var(--transition)
+        }
+
+        .service-card:nth-child(1) .service-icon {
+            background: rgba(0, 123, 255, .1);
+            color: var(--primary)
+        }
+
+        .service-card:nth-child(2) .service-icon {
+            background: rgba(0, 186, 199, .1);
+            color: #00bac7
+        }
+
+        .service-card:nth-child(3) .service-icon {
+            background: rgba(99, 102, 241, .1);
+            color: #6366f1
+        }
+
+        .service-card:nth-child(4) .service-icon {
+            background: rgba(255, 122, 0, .1);
+            color: var(--accent)
+        }
+
+        .service-card:nth-child(5) .service-icon {
+            background: rgba(236, 72, 153, .1);
+            color: #ec4899
+        }
+
+        .service-card:nth-child(6) .service-icon {
+            background: rgba(139, 92, 246, .1);
+            color: #8b5cf6
+        }
+
+        .service-card:nth-child(7) .service-icon {
+            background: rgba(20, 184, 166, .1);
+            color: #14b8a6
+        }
+
+        .service-card:nth-child(8) .service-icon {
+            background: rgba(100, 116, 139, .1);
+            color: #64748b
+        }
+
+        .service-card h3 {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--dark)
+        }
+
+        .service-card p {
+            font-size: .9rem;
+            color: var(--gray);
+            margin-bottom: 20px;
+            line-height: 1.5;
+            flex-grow: 1;
+        }
+
+        .service-card .btn {
+            padding: 10px 24px;
+            font-size: .85rem
+        }
+
+        /* ============ TESTIMONIALS ============ */
+        .testimonials {
+            padding: 100px 0;
+            background: var(--bg);
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+        }
+
+        .testi-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 40px 32px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-light);
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .testi-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .testi-quote {
+            color: var(--primary);
+            font-size: 3rem;
+            position: absolute;
+            top: 24px;
+            right: 32px;
+            opacity: 0.1;
+            font-family: serif;
+            line-height: 1;
+        }
+
+        .testi-stars {
+            color: #fbbf24;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 4px;
+        }
+
+        .testi-content {
+            font-size: 1rem;
+            color: var(--dark);
+            margin-bottom: 32px;
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        .testi-user {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .testi-img {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-light);
+        }
+
+        .testi-name {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 1.05rem;
+        }
+
+        .testi-role {
+            font-size: .85rem;
+            color: var(--gray);
+        }
+
+        @media(max-width:992px) {
+            .testimonial-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width:768px) {
+            .testimonial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ============ HOW IT WORKS ============ */
+        .how-it-works {
+            padding: 100px 0;
+            background: linear-gradient(180deg, var(--bg), var(--white))
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            position: relative
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            padding: 0 16px
+        }
+
+        .step-number {
+            width: 56px;
+            height: 56px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 800;
+            font-family: var(--font-en);
+            color: #fff;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            box-shadow: 0 4px 16px rgba(0, 123, 255, .3)
+        }
+
+        .step h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px
+        }
+
+        .step p {
+            color: var(--gray);
+            font-size: .95rem
+        }
+
+        /* ============ BOOKING FORM ============ */
+        .booking {
+            padding: 100px 0;
+            background: var(--white)
+        }
+
+        .booking-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start
+        }
+
+        .form-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--gray-light)
+        }
+
+        .form-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .form-group {
+            margin-bottom: 18px
+        }
+
+        .form-group label {
+            display: block;
+            font-size: .9rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: var(--dark)
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--gray-light);
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-family: var(--font-th);
+            transition: var(--transition);
+            background: var(--bg);
+            color: var(--dark)
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 123, 255, .1)
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px
+        }
+
+        .form-card .btn {
+            width: 100%;
+            justify-content: center;
+            padding: 16px;
+            font-size: 1.05rem;
+            margin-top: 8px
+        }
+
+        .price-card {
+            background: linear-gradient(135deg, var(--primary), #0056b3);
+            border-radius: var(--radius);
+            padding: 40px;
+            color: #fff;
+            position: sticky;
+            top: 100px
+        }
+
+        .price-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px
+        }
+
+        .price-card p {
+            opacity: .85;
+            margin-bottom: 24px;
+            font-size: .95rem
+        }
+
+        .price-display {
+            background: rgba(255, 255, 255, .15);
+            border-radius: var(--radius-sm);
+            padding: 24px;
+            text-align: center;
+            margin-bottom: 24px;
+            backdrop-filter: blur(4px)
+        }
+
+        .price-display .label {
+            font-size: .9rem;
+            opacity: .8;
+            margin-bottom: 4px
+        }
+
+        .price-display .amount {
+            font-size: 2.8rem;
+            font-weight: 800;
+            font-family: var(--font-en)
+        }
+
+        .price-display .unit {
+            font-size: 1rem;
+            opacity: .8
+        }
+
+        .price-features {
+            display: flex;
+            flex-direction: column;
+            gap: 12px
+        }
+
+        .price-feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: .95rem
+        }
+
+        .price-feature .check {
+            width: 24px;
+            height: 24px;
+            background: rgba(255, 255, 255, .2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            flex-shrink: 0
+        }
+
+        /* ============ FOOTER ============ */
+        .footer {
+            background: var(--dark);
+            color: #fff;
+            padding: 60px 0 24px
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px
+        }
+
+        .footer-brand .logo {
+            margin-bottom: 16px
+        }
+
+        .footer-brand .logo span:first-of-type {
+            color: #fff
+        }
+
+        .footer-brand p {
+            color: rgba(255, 255, 255, .6);
+            font-size: .9rem;
+            max-width: 300px;
+            line-height: 1.7
+        }
+
+        .footer-col h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: #fff
+        }
+
+        .footer-col a,
+        .footer-col p {
+            display: block;
+            color: rgba(255, 255, 255, .6);
+            font-size: .9rem;
+            margin-bottom: 10px;
+            transition: var(--transition)
+        }
+
+        .footer-col a:hover {
+            color: var(--accent);
+            transform: translateX(4px)
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, .1);
+            padding-top: 24px;
+            text-align: center;
+            color: rgba(255, 255, 255, .4);
+            font-size: .85rem
+        }
+
+        /* ============ MOBILE NAV ============ */
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: rgba(255, 255, 255, .98);
+            backdrop-filter: blur(12px);
+            z-index: 999;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            opacity: 0;
+            pointer-events: none;
+            transition: var(--transition)
+        }
+
+        .mobile-menu.open {
+            opacity: 1;
+            pointer-events: all
+        }
+
+        .mobile-menu a {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--dark)
+        }
+
+        .close-menu {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--dark)
+        }
+
+        /* ============ TOAST ============ */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--primary);
+            color: #fff;
+            padding: 16px 28px;
+            border-radius: var(--radius-sm);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: var(--transition);
+            z-index: 9999;
+            font-weight: 600
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1
+        }
+
+        /* ============ RESPONSIVE ============ */
+        @media(max-width:992px) {
+            .hero .container {
+                grid-template-columns: 1fr;
+                text-align: center
+            }
+
+            .hero h1 {
+                font-size: 2.2rem
+            }
+
+            .hero p {
+                margin: 0 auto 32px
+            }
+
+            .hero-buttons {
+                justify-content: center
+            }
+
+            .hero-visual {
+                order: -1
+            }
+
+            .hero-illustration {
+                max-width: 320px
+            }
+
+            .service-grid {
+                grid-template-columns: repeat(2, 1fr)
+            }
+
+            .booking-wrapper {
+                grid-template-columns: 1fr
+            }
+
+            .price-card {
+                position: static
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        @media(max-width:768px) {
+            .nav {
+                display: none
+            }
+
+            .hamburger {
+                display: flex
+            }
+
+            .mobile-menu {
+                display: flex
+            }
+
+            .hero h1 {
+                font-size: 1.8rem
+            }
+
+            .service-grid {
+                grid-template-columns: 1fr
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+                gap: 24px
+            }
+
+            .section-title h2 {
+                font-size: 1.6rem
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ============ HEADER ============ -->
+    <header class="header" id="header">
+        <div class="container">
+            <a href="#" class="logo">
+                <div class="icon">🔧</div>
+                <span>Fast</span><span>Fix</span>
+            </a>
+            <nav class="nav">
+                <a href="#home">หน้าแรก</a>
+                <a href="#services">บริการ</a>
+                <a href="#how">วิธีใช้งาน</a>
+                <a href="#contact">ติดต่อเรา</a>
+                <a href="admin.html" style="color:var(--accent)">🛡️ Admin</a>
+                <a href="#booking" class="btn btn-accent">🚀 เรียกช่างด่วน</a>
+            </nav>
+            <button class="hamburger" id="menuBtn" aria-label="เปิดเมนู">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MOBILE MENU -->
+    <div class="mobile-menu" id="mobileMenu">
+        <button class="close-menu" id="closeMenu">✕</button>
+        <a href="#home" class="mobile-link">หน้าแรก</a>
+        <a href="#services" class="mobile-link">บริการ</a>
+        <a href="#how" class="mobile-link">วิธีใช้งาน</a>
+        <a href="#contact" class="mobile-link">ติดต่อเรา</a>
+        <a href="#booking" class="btn btn-accent mobile-link">🚀 เรียกช่างด่วน</a>
+    </div>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-badge"><span class="dot"></span> พร้อมให้บริการ 24 ชม.</div>
+                <h1>หาช่างง่าย ซ่อมไว<br><span class="highlight">ราคายุติธรรม</span></h1>
+                <p>แพลตฟอร์มเรียกช่างมืออาชีพถึงบ้านคุณ รวดเร็ว โปร่งใส ไว้วางใจได้ ครอบคลุมทุกงานซ่อมแซม</p>
+                <div class="hero-buttons">
+                    <a href="#booking" class="btn btn-primary">⚡ เรียกช่างเลย</a>
+                    <a href="#services" class="btn btn-outline">ดูบริการทั้งหมด</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <!-- Inline SVG Illustration -->
+                <svg class="hero-illustration" viewBox="0 0 480 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="80" y="100" width="200" height="200" rx="16" fill="#e8f4ff" stroke="#007BFF"
+                        stroke-width="3" />
+                    <rect x="110" y="160" width="50" height="70" rx="4" fill="#007BFF" opacity=".7" />
+                    <rect x="180" y="140" width="60" height="40" rx="4" fill="#007BFF" opacity=".3" />
+                    <rect x="180" y="200" width="60" height="40" rx="4" fill="#007BFF" opacity=".3" />
+                    <polygon points="80,100 180,40 280,100" fill="#FF7A00" opacity=".85" />
+                    <rect x="170" y="60" width="20" height="30" rx="2" fill="#cc6200" />
+                    <!-- Person -->
+                    <circle cx="360" cy="160" r="30" fill="#FFD6A0" />
+                    <rect x="335" y="190" width="50" height="80" rx="8" fill="#007BFF" />
+                    <rect x="310" y="200" width="30" height="12" rx="4" fill="#007BFF" />
+                    <rect x="385" y="200" width="50" height="12" rx="4" fill="#FF7A00" />
+                    <!-- Tool -->
+                    <rect x="420" y="190" width="8" height="40" rx="2" fill="#555" />
+                    <rect x="415" y="185" width="18" height="10" rx="3" fill="#FF7A00" />
+                    <!-- Legs -->
+                    <rect x="340" y="268" width="16" height="50" rx="4" fill="#1a1a2e" />
+                    <rect x="360" y="268" width="16" height="50" rx="4" fill="#1a1a2e" />
+                    <!-- Ground -->
+                    <ellipse cx="240" cy="320" rx="200" ry="12" fill="#e2e8f0" />
+                    <!-- Stars -->
+                    <text x="100" y="360" font-size="22">⭐</text>
+                    <text x="140" y="375" font-size="18">⭐</text>
+                    <text x="180" y="358" font-size="20">⭐</text>
+                    <text x="220" y="372" font-size="22">⭐</text>
+                    <text x="260" y="362" font-size="16">⭐</text>
+                    <text x="70" y="390" font-size="13" fill="#64748b" font-family="IBM Plex Sans Thai">คะแนนเฉลี่ย
+                        4.9/5 จากผู้ใช้กว่า 10,000 คน</text>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ SERVICES ============ -->
+    <section class="services" id="services">
+        <div class="container">
+            <div class="section-title fade-up">
+                <div class="underline"></div>
+                <h2>ประเภทบริการของเรา</h2>
+                <p>ครอบคลุมทุกงานซ่อมแซมภายในบ้าน ด้วยช่างมืออาชีพที่ผ่านการรับรอง</p>
+            </div>
+            <div class="service-grid">
+                <div class="service-card fade-up" data-service="electrician">
+                    <div class="service-icon">⚡</div>
+                    <h3>ช่างไฟฟ้า</h3>
+                    <p>ซ่อมระบบไฟฟ้า เดินสายไฟ ติดตั้งเบรกเกอร์ แก้ไฟช็อต ไฟรั่ว อย่างปลอดภัย</p>
+                    <a href="#booking" class="btn btn-outline" onclick="selectService('electrician')">เลือกบริการ</a>
+                </div>
+                <div class="service-card fade-up" data-service="plumber">
+                    <div class="service-icon">🔧</div>
+                    <h3>ช่างประปา</h3>
+                    <p>ซ่อมท่อน้ำ แก้ท่อรั่ว ท่อตัน ติดตั้งสุขภัณฑ์ เปลี่ยนก๊อกน้ำ ปั๊มน้ำ</p>
+                    <a href="#booking" class="btn btn-outline" onclick="selectService('plumber')">เลือกบริการ</a>
+                </div>
+                <div class="service-card fade-up" data-service="aircon">
+                    <div class="service-icon">❄️</div>
+                    <h3>ช่างแอร์</h3>
+                    <p>ล้างแอร์ เติมน้ำยา ซ่อมแอร์ ติดตั้งแอร์ใหม่ ตรวจเช็คระบบทำความเย็น</p>
+                    <a href="#booking" class="btn btn-outline" onclick="selectService('aircon')">เลือกบริการ</a>
+                </div>
+                <div class="service-card fade-up" data-service="mechanic">
+                    <div class="service-icon">🚗</div>
+                    <h3>ช่างซ่อมรถ</h3>
+                    <p>ซ่อมเครื่องยนต์ เปลี่ยนถ่ายน้ำมัน เช็คช่วงล่าง บริการถึงหน้าบ้าน</p>
+                    <a href="#booking" class="btn btn-outline" onclick="selectService('mechanic')">เลือกบริการ</a>
+                </div>
+                <div class="service-card fade-up" data-service="painter">
+                    <div class="service-icon">🎨</div>
+                    <h3>ช่างทาสี</h3>
+                    <p>ทาสีบ้าน ทาสีห้อง ลอกสีเก่า เก็บรอยแตกร้าว เลือกสีให้คำปรึกษาฟรี</p>
+                    <a href="#booking" class="btn btn-outline" onclick="selectService('painter')">เลือกบริการ</a>
+                </div>
+                <div class="service-card fade-up" data-service="builtin">
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 21h14"></path>
+                            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                            <path d="M6 9V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v4"></path>
+                            <path d="M10 12v3"></path>
+                            <path d="M14 12v3"></path>
+                        </svg>
+                    </div>
+                    <h3>ช่างบิวท์อิน</h3>
+                    <p>ออกแบบและติดตั้งเฟอร์นิเจอร์บิวท์อิน ตู้เสื้อผ้า ชั้นวาง ครัวบิวท์อิน</p>
+                    <a href="#booking" class="btn btn-outline" onclick="selectService('builtin')">เลือกบริการ</a>
+                </div>
+                <div class="service-card fade-up" data-service="renovation">
+                    <div class="service-icon">🏗️</div>
+                    <h3>ช่างต่อเติม</h3>
+                    <p>ต่อเติมบ้าน ทุบห้อง ก่อผนัง ปูกระเบื้อง งานโครงสร้างทุกประเภท</p>
+                    <a href="#booking" class="btn btn-outline" onclick="selectService('renovation')">เลือกบริการ</a>
+                </div>
+                <div class="service-card fade-up" data-service="cctv">
+                    <div class="service-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="m16 13 5.223 3.482a.5.5 0 0 0 .777-.416V7.87a.5.5 0 0 0-.752-.432L16 10.5"></path>
+                            <rect x="2" y="6" width="14" height="12" rx="2" ry="2"></rect>
+                        </svg>
+                    </div>
+                    <h3>ช่างกล้องวงจรปิด</h3>
+                    <p>ติดตั้ง CCTV ซ่อมกล้อง ตั้งค่าดูผ่านมือถือ ระบบบันทึกภาพ 24 ชม.</p>
+                    <a href="#booking" class="btn btn-outline" onclick="selectService('cctv')">เลือกบริการ</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="how-it-works" id="how">
+        <div class="container">
+            <div class="section-title fade-up">
+                <div class="underline"></div>
+                <h2>วิธีใช้งาน</h2>
+                <p>ง่ายเพียง 3 ขั้นตอน ช่างก็จะไปถึงบ้านคุณ</p>
+            </div>
+            <div class="steps">
+                <div class="step fade-up">
+                    <div class="step-number">1</div>
+                    <h3>เลือกบริการ</h3>
+                    <p>เลือกประเภทช่างที่ต้องการ พร้อมกรอกรายละเอียดปัญหาที่พบ</p>
+                </div>
+                <div class="step fade-up">
+                    <div class="step-number">2</div>
+                    <h3>ยืนยันคำสั่ง</h3>
+                    <p>ตรวจสอบราคาประเมินเบื้องต้น กดยืนยัน รอช่างติดต่อกลับ</p>
+                </div>
+                <div class="step fade-up">
+                    <div class="step-number">3</div>
+                    <h3>ช่างถึงบ้าน</h3>
+                    <p>ช่างมืออาชีพเดินทางถึงบ้านคุณ พร้อมซ่อมแซมทันที</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ TESTIMONIALS ============ -->
+    <section class="testimonials" id="reviews">
+        <div class="container">
+            <div class="section-title fade-up">
+                <div class="underline"></div>
+                <h2>รีวิวจากลูกค้าที่ใช้งานจริง</h2>
+                <p>เสียงตอบรับจากผู้ใช้บริการ Fast Fix ทั่วประเทศ</p>
+            </div>
+            <div class="testimonial-grid">
+                <div class="testi-card fade-up">
+                    <div class="testi-quote">"</div>
+                    <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testi-content">"เรียกช่างแอร์มาล้าง ทำงานสะอาดมาก ช่างสุภาพและตรงต่อเวลาสุดๆ
+                        ที่สำคัญคือราคาโปร่งใส ไม่มีการบวกเพิ่มหน้างาน ประทับใจมากค่ะ แนะนำเลย"</p>
+                    <div class="testi-user">
+                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" alt="คุณแพรวา" class="testi-img">
+                        <div>
+                            <div class="testi-name">คุณแพรวา ม.</div>
+                            <div class="testi-role">ลูกค้าใช้บริการช่างแอร์</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card fade-up" style="transition-delay: 0.1s">
+                    <div class="testi-quote">"</div>
+                    <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testi-content">"ตอนแรกกังวลว่าจะโดนช่างทิ้งงานเพราะทำบิวท์อิน แต่ช่างจาก Fast Fix
+                        มืออาชีพมากๆ งานเสร็จตามกำหนด เกรดวัสดุดีตรงตามที่คุย คุ้มค่าเงินทุกบาทครับ"</p>
+                    <div class="testi-user">
+                        <img src="https://i.pravatar.cc/150?u=a042581f4e29026024d" alt="คุณกฤษฎา" class="testi-img">
+                        <div>
+                            <div class="testi-name">คุณกฤษฎา ต.</div>
+                            <div class="testi-role">ลูกค้าใช้บริการช่างบิวท์อิน</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="testi-card fade-up" style="transition-delay: 0.2s">
+                    <div class="testi-quote">"</div>
+                    <div class="testi-stars">⭐⭐⭐⭐⭐</div>
+                    <p class="testi-content">"ไฟช็อตกลางคืน ไม่รู้จะเรียกใคร ลองใช้เว็บนี้ดู ไม่ถึงชั่วโมงช่างก็มาถึง
+                        แก้ไขรวดเร็วและปลอดภัย ไว้ใจได้จริงๆ แพลตฟอร์มนี้เป็นที่พึ่งพาได้เลย"</p>
+                    <div class="testi-user">
+                        <img src="https://i.pravatar.cc/150?u=a04258a2462d826712d" alt="คุณวิชัย" class="testi-img">
+                        <div>
+                            <div class="testi-name">คุณวิชัย ร.</div>
+                            <div class="testi-role">ลูกค้าใช้บริการช่างไฟฟ้า</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ BOOKING FORM ============ -->
+    <section class="booking" id="booking">
+        <div class="container">
+            <div class="section-title fade-up">
+                <div class="underline"></div>
+                <h2>เรียกช่างเลย</h2>
+                <p>กรอกข้อมูลด้านล่าง เราจะจัดส่งช่างไปหาคุณโดยเร็วที่สุด</p>
+            </div>
+            <div class="booking-wrapper">
+                <div class="form-card fade-up">
+                    <h3>📋 แบบฟอร์มเรียกช่าง</h3>
+                    <form id="bookingForm" onsubmit="submitForm(event)">
+                        <div class="form-group">
+                            <label for="name">ชื่อ-นามสกุล</label>
+                            <input type="text" id="name" placeholder="กรอกชื่อของคุณ" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">เบอร์โทรศัพท์</label>
+                            <input type="tel" id="phone" placeholder="0xxxxxxxxx (ใส่ตัวเลข 10 หลัก)"
+                                pattern="[0-9]{10}" maxlength="10" title="กรุณากรอกเบอร์โทรศัพท์ 10 หลัก" required
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);">
+                        </div>
+                        <div class="form-group">
+                            <label for="address">ที่อยู่</label>
+                            <input type="text" id="address" placeholder="บ้านเลขที่ ซอย ถนน แขวง/ตำบล" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="serviceType">ประเภทช่าง</label>
+                            <select id="serviceType" required onchange="updatePrice()">
+                                <option value="">-- เลือกประเภทช่าง --</option>
+                                <option value="electrician">⚡ ช่างไฟฟ้า</option>
+                                <option value="plumber">🔧 ช่างประปา</option>
+                                <option value="aircon">❄️ ช่างแอร์</option>
+                                <option value="mechanic">🚗 ช่างซ่อมรถ</option>
+                                <option value="painter">🎨 ช่างทาสี</option>
+                                <option value="builtin">🛋️ ช่างบิวท์อิน</option>
+                                <option value="renovation">🏗️ ช่างต่อเติม</option>
+                                <option value="cctv">📹 ช่างกล้องวงจรปิด</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="details">รายละเอียดปัญหา</label>
+                            <textarea id="details"
+                                placeholder="อธิบายปัญหาที่พบ เช่น ไฟดับชั้น 2 ก๊อกน้ำรั่ว ฯลฯ"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-accent">📨 ส่งคำขอเรียกช่าง</button>
+                    </form>
+                </div>
+                <div class="price-card fade-up" id="priceCard">
+                    <h3>💰 ราคาประเมินเบื้องต้น</h3>
+                    <p>ราคาจะแสดงอัตโนมัติเมื่อเลือกประเภทช่าง (ราคาจริงอาจแตกต่างตามหน้างาน)</p>
+                    <div class="price-display">
+                        <div class="label">ค่าบริการเริ่มต้น</div>
+                        <div class="amount" id="priceAmount">-</div>
+                        <div class="unit" id="priceUnit">กรุณาเลือกบริการ</div>
+                    </div>
+                    <div class="price-features">
+                        <div class="price-feature"><span class="check">✓</span> ไม่มีค่าเรียกช่าง</div>
+                        <div class="price-feature"><span class="check">✓</span> รับประกันงาน 30 วัน</div>
+                        <div class="price-feature"><span class="check">✓</span> ช่างผ่านการรับรอง</div>
+                        <div class="price-feature"><span class="check">✓</span> ราคาโปร่งใส ไม่บวกเพิ่ม</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer" id="contact">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <div class="logo">
+                        <div class="icon">🔧</div>
+                        <span>Fast</span><span>Fix</span>
+                    </div>
+                    <p>แพลตฟอร์มเรียกช่างมืออาชีพถึงบ้านคุณ รวดเร็ว โปร่งใส ไว้วางใจได้ ให้บริการทั่วประเทศไทย</p>
+                </div>
+                <div class="footer-col">
+                    <h4>บริการ</h4>
+                    <a href="#services">ช่างไฟฟ้า</a>
+                    <a href="#services">ช่างประปา</a>
+                    <a href="#services">ช่างแอร์</a>
+                    <a href="#services">ช่างซ่อมรถ</a>
+                </div>
+                <div class="footer-col">
+                    <h4>ติดต่อเรา</h4>
+                    <p>📞 02-123-4567</p>
+                    <p>📱 091-234-5678</p>
+                    <a href="#">📘 Facebook: Fast Fix Thailand</a>
+                    <p>📧 support@fastfix.co.th</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 Fast Fix Thailand. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        /* ============ PRICE DATA ============ */
+        const priceData = {
+            electrician: { min: 300, max: 1500, label: '300 - 1,500', desc: 'บาท / ครั้ง' },
+            plumber: { min: 250, max: 1200, label: '250 - 1,200', desc: 'บาท / ครั้ง' },
+            aircon: { min: 400, max: 2500, label: '400 - 2,500', desc: 'บาท / ครั้ง' },
+            mechanic: { min: 500, max: 3000, label: '500 - 3,000', desc: 'บาท / ครั้ง' },
+            painter: { min: 1000, max: 5000, label: '1,000 - 5,000', desc: 'บาท / ครั้ง' },
+            builtin: { min: 2000, max: 10000, label: '2,000 - 10,000', desc: 'บาท / ครั้ง' },
+            renovation: { min: 3000, max: 20000, label: '3,000 - 20,000', desc: 'บาท / ครั้ง' },
+            cctv: { min: 1500, max: 8000, label: '1,500 - 8,000', desc: 'บาท / ครั้ง' }
+        };
+
+        /* ============ HEADER SCROLL ============ */
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        /* ============ MOBILE MENU ============ */
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMenu = document.getElementById('closeMenu');
+
+        menuBtn.addEventListener('click', () => mobileMenu.classList.add('open'));
+        closeMenu.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        document.querySelectorAll('.mobile-link').forEach(link => {
+            link.addEventListener('click', () => mobileMenu.classList.remove('open'));
+        });
+
+        /* ============ UPDATE PRICE ============ */
+        function updatePrice() {
+            const select = document.getElementById('serviceType');
+            const amount = document.getElementById('priceAmount');
+            const unit = document.getElementById('priceUnit');
+            const val = select.value;
+            if (val && priceData[val]) {
+                amount.textContent = priceData[val].label;
+                unit.textContent = priceData[val].desc;
+                amount.style.animation = 'none';
+                void amount.offsetHeight;
+                amount.style.animation = 'pulse .4s ease';
+            } else {
+                amount.textContent = '-';
+                unit.textContent = 'กรุณาเลือกบริการ';
+            }
+        }
+
+        /* ============ SELECT SERVICE FROM CARD ============ */
+        function selectService(type) {
+            const select = document.getElementById('serviceType');
+            select.value = type;
+            updatePrice();
+        }
+
+        /* ============ FORM SUBMIT ============ */
+        function submitForm(e) {
+            e.preventDefault();
+            const order = {
+                id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                service: document.getElementById('serviceType').value,
+                details: document.getElementById('details').value,
+                status: 'new',
+                timestamp: new Date().toISOString()
+            };
+            const orders = JSON.parse(localStorage.getItem('fastfix_orders') || '[]');
+            orders.unshift(order);
+            localStorage.setItem('fastfix_orders', JSON.stringify(orders));
+            showToast('✅ ขอบคุณคุณ ' + order.name + '! เราจะติดต่อกลับภายใน 15 นาที');
+            e.target.reset();
+            document.getElementById('priceAmount').textContent = '-';
+            document.getElementById('priceUnit').textContent = 'กรุณาเลือกบริการ';
+        }
+
+        /* ============ TOAST ============ */
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        /* ============ SCROLL ANIMATIONS ============ */
+        const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -40px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+    </script>
+</body>
+
+</html>
